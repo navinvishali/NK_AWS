@@ -3,193 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
-<title>AWS Updates | NK Uni</title>
+<title>AWS Updates | NK AWS</title>
+<meta name="description" content="Live AWS What's New updates from the last 90 days. Dynamic AWS service discovery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --text:#172033;
+  --muted:#667085;
+  --line:#e7eaf0;
+  --accent:#ff9900;
+  --accent2:#146eb4;
+  --shadow:0 12px 35px rgba(15,23,42,.08);
+}
 *{box-sizing:border-box}
-:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--border:#e5e7eb;--orange:#ff9900;--blue:#2563eb}
-body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
-.header{background:linear-gradient(135deg,#111827,#1e293b);color:#fff;padding:25px 18px}
-.header-inner{max-width:1200px;margin:auto}.header-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
-.logo{display:flex;align-items:center;gap:12px}.aws-icon{width:42px;height:42px;border-radius:10px;background:var(--orange);display:grid;place-items:center;font-size:22px}
-h1{margin:0;font-size:26px}.subtitle{margin:4px 0 0;color:#cbd5e1;font-size:13px}
-.live{display:flex;align-items:center;gap:7px;color:#bbf7d0;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:#22c55e}
-.container{max-width:1200px;margin:22px auto;padding:0 18px}
-.hero{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:17px}
-.hero-label{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-.hero h2{margin:5px 0;font-size:21px}.hero p{margin:0;color:var(--muted);font-size:13px}
-.controls{display:flex;gap:9px;margin-bottom:12px}.search{flex:1;border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;outline:none;background:#fff}.search:focus{border-color:var(--orange)}
-.refresh{border:0;background:#111827;color:#fff;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:600}
-.filters{display:flex;gap:7px;overflow-x:auto;padding-bottom:9px;margin-bottom:17px}.filter{flex-shrink:0;border:1px solid var(--border);background:#fff;color:#374151;border-radius:20px;padding:7px 12px;cursor:pointer;font-size:12px}.filter.active{background:var(--orange);color:#fff;border-color:var(--orange)}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:18px}.updates{display:flex;flex-direction:column;gap:10px}
-.card{background:#fff;border:1px solid var(--border);border-radius:13px;padding:16px;transition:.18s}.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.06)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}.tags{display:flex;gap:5px;flex-wrap:wrap}.tag{background:#eff6ff;color:#2563eb;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:700}.tag.connect{background:#fff7ed;color:#ea580c}.tag.ai{background:#f5f3ff;color:#7c3aed}
-.date{color:#9ca3af;font-size:11px;white-space:nowrap}.card h3{margin:0 0 6px;font-size:16px;line-height:1.35}.description{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 10px}.read{color:var(--blue);font-size:12px;font-weight:700;text-decoration:none}.read:hover{text-decoration:underline}
-.sidebar{background:#fff;border:1px solid var(--border);border-radius:13px;padding:15px;height:fit-content}.sidebar h3{margin:0 0 10px;font-size:14px}.service-list{display:flex;flex-direction:column;gap:3px}.service{border:0;background:transparent;text-align:left;border-radius:8px;padding:8px 9px;cursor:pointer;font-size:12px;color:#374151}.service:hover{background:#f3f4f6}.service.active{background:#fff7ed;color:#ea580c;font-weight:700}
-.loading,.empty{background:#fff;border:1px solid var(--border);border-radius:13px;padding:35px;text-align:center;color:var(--muted)}.empty{display:none}.error{display:none;background:#fff1f2;color:#be123c;border:1px solid #fecdd3;border-radius:12px;padding:13px;margin-bottom:13px;font-size:13px}
-.footer{text-align:center;color:#9ca3af;font-size:11px;padding:25px 0}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{order:-1}.service-list{display:grid;grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.header{padding:20px 15px}.header-top{align-items:flex-start}.header h1{font-size:21px}.live{font-size:10px}.container{padding:0 12px;margin-top:14px}.hero{padding:16px}.hero h2{font-size:18px}.controls{flex-direction:column}.refresh{height:40px}.card{padding:13px}}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(180deg,#f8fafc 0%,#f3f6fa 100%);color:var(--text)}
+a{text-decoration:none;color:inherit}
+.container{width:min(1240px,calc(100% - 32px));margin:auto}
+.hero{margin:20px auto 18px;padding:34px;border-radius:28px;background:linear-gradient(135deg,#172033 0%,#243b53 58%,#146eb4 100%);color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-90px;top:-140px;background:rgba(255,153,0,.22)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.2px}
+.hero h1{font-size:clamp(30px,5vw,52px);margin:16px 0 8px;letter-spacing:-1.5px}
+.hero p{max-width:760px;margin:0;color:#dbe7f2;line-height:1.7}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.meta{background:rgba(255,255,255,.1);padding:9px 12px;border-radius:12px;font-size:12px}
+.toolbar{position:sticky;top:0;z-index:10;background:rgba(245,247,251,.92);backdrop-filter:blur(14px);padding:12px 0;border-bottom:1px solid rgba(231,234,240,.8)}
+.controls{display:grid;grid-template-columns:1.4fr auto auto;gap:10px}
+input,select,button{font:inherit}
+.search{border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px 15px;outline:none}
+.search:focus{border-color:#9fc5e6;box-shadow:0 0 0 4px rgba(20,110,180,.08)}
+select{border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px 38px 13px 14px;outline:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 7px 22px rgba(15,23,42,.04)}
+.stat strong{display:block;font-size:25px}
+.stat span{font-size:12px;color:var(--muted)}
+.servicebar{display:flex;gap:8px;overflow:auto;padding:3px 0 8px;scrollbar-width:thin}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;white-space:nowrap;cursor:pointer;font-size:12px;font-weight:600;color:#475467}
+.chip.active{background:#172033;color:#fff;border-color:#172033}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 12px}
+.section-head h2{margin:0;font-size:20px}
+.section-head span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 8px 28px rgba(15,23,42,.055);transition:.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 35px rgba(15,23,42,.09)}
+.card-top{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.date{font-size:11px;color:#667085}
+.card h3{margin:10px 0 8px;font-size:16px;line-height:1.45}
+.excerpt{font-size:13px;color:#667085;line-height:1.65;margin:0 0 14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.tag{font-size:10px;font-weight:700;background:#f1f5f9;color:#475467;padding:6px 8px;border-radius:999px}
+.card-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.open{display:inline-flex;align-items:center;gap:7px;background:#ff9900;color:#172033;font-weight:800;font-size:12px;padding:10px 13px;border-radius:11px}
+.service-text{font-size:11px;color:#667085;text-align:right}
+.month{margin-top:30px}
+.month-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.month-title h2{font-size:18px;margin:0}
+.month-title:after{content:"";height:1px;background:var(--line);flex:1}
+.loading,.empty,.error{padding:45px 20px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:18px;color:var(--muted)}
+.footer{padding:40px 0;text-align:center;color:#7a8493;font-size:11px}
+.footer a{color:#146eb4;font-weight:700}
+@media(max-width:760px){
+  .container{width:min(100% - 20px,1240px)}
+  .hero{padding:25px;border-radius:22px}
+  .controls{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:34px}
+}
 </style>
 </head>
 <body>
-<header class="header"><div class="header-inner"><div class="header-top">
-<div class="logo"><div class="aws-icon">☁️</div><div><h1>AWS Updates</h1><p class="subtitle">Amazon Connect · AI · Serverless · Data · Cloud</p></div></div>
-<div class="live"><span class="dot"></span>Live AWS Feed</div>
-</div></div></header>
+<div class="container">
+  <section class="hero">
+    <div class="badge">☁️ LIVE AWS INTELLIGENCE</div>
+    <h1>AWS Updates</h1>
+    <p>Official AWS What's New announcements from the last 90 days, with services discovered dynamically from AWS data.</p>
+    <div class="hero-meta">
+      <div class="meta" id="sourceMeta">Source: AWS What's New</div>
+      <div class="meta" id="updatedMeta">Loading…</div>
+      <div class="meta">90-day window</div>
+    </div>
+  </section>
+</div>
+
+<div class="toolbar">
+  <div class="container">
+    <div class="controls">
+      <input id="search" class="search" type="search" placeholder="Search AWS updates, services, features…">
+      <select id="period">
+        <option value="90">Last 90 days</option>
+        <option value="30">Last 30 days</option>
+        <option value="60">Last 60 days</option>
+      </select>
+      <select id="category">
+        <option value="">All categories</option>
+      </select>
+    </div>
+    <div id="serviceBar" class="servicebar" style="margin-top:10px"></div>
+  </div>
+</div>
 
 <main class="container">
-<section class="hero">
-<div class="hero-label">AWS Technology Watch</div>
-<h2>Amazon Connect & Connected AWS Services</h2>
-<p>Live AWS announcements relevant to contact centers, conversational AI, serverless integrations, analytics, security and customer experience.</p>
-</section>
+  <section class="stats">
+    <div class="stat"><strong id="totalCount">—</strong><span>Announcements</span></div>
+    <div class="stat"><strong id="serviceCount">—</strong><span>Services found automatically</span></div>
+    <div class="stat"><strong id="lastUpdated">—</strong><span>Data refresh time</span></div>
+  </section>
 
-<div id="error" class="error"></div>
+  <div id="content"><div class="loading">Loading live AWS announcements…</div></div>
 
-<div class="controls">
-<input id="search" class="search" type="search" placeholder="Search updates, services or keywords...">
-<button id="refresh" class="refresh">↻ Refresh</button>
-</div>
-
-<div class="filters">
-<button class="filter active" data-filter="all">All</button>
-<button class="filter" data-filter="Amazon Connect">Connect</button>
-<button class="filter" data-filter="Amazon Bedrock">Bedrock</button>
-<button class="filter" data-filter="AWS Lambda">Lambda</button>
-<button class="filter" data-filter="Amazon Lex">Lex</button>
-<button class="filter" data-filter="DynamoDB">DynamoDB</button>
-<button class="filter" data-filter="API Gateway">API Gateway</button>
-<button class="filter" data-filter="CloudWatch">CloudWatch</button>
-<button class="filter" data-filter="CloudTrail">CloudTrail</button>
-<button class="filter" data-filter="Kinesis">Kinesis</button>
-<button class="filter" data-filter="AI">AI / ML</button>
-</div>
-
-<div class="layout">
-<section>
-<div id="loading" class="loading">Loading latest AWS updates...</div>
-<div id="updates" class="updates"></div>
-<div id="empty" class="empty">No matching AWS updates found.</div>
-</section>
-
-<aside class="sidebar">
-<h3>AWS Services</h3>
-<div class="service-list">
-<button class="service active" data-filter="all">☁️ All AWS</button>
-<button class="service" data-filter="Amazon Connect">📞 Amazon Connect</button>
-<button class="service" data-filter="Amazon Bedrock">🤖 Amazon Bedrock</button>
-<button class="service" data-filter="AWS Lambda">⚡ AWS Lambda</button>
-<button class="service" data-filter="Amazon Lex">🗣️ Amazon Lex</button>
-<button class="service" data-filter="DynamoDB">🗄️ DynamoDB</button>
-<button class="service" data-filter="API Gateway">🔗 API Gateway</button>
-<button class="service" data-filter="CloudWatch">📊 CloudWatch</button>
-<button class="service" data-filter="CloudTrail">🛡️ CloudTrail</button>
-<button class="service" data-filter="Kinesis">📡 Kinesis</button>
-<button class="service" data-filter="EventBridge">🔔 EventBridge</button>
-<button class="service" data-filter="S3">🪣 Amazon S3</button>
-<button class="service" data-filter="AI">🧠 Other AI / ML</button>
-</div>
-</aside>
-</div>
-
-<div class="footer">Official AWS feeds · Last checked: <span id="lastUpdated">—</span></div>
+  <footer class="footer">
+    Data source: <a href="https://aws.amazon.com/new/" target="_blank" rel="noopener">AWS What's New</a>
+    · Your page refreshes live from the Cloudflare Worker API.
+  </footer>
 </main>
 
 <script>
-const API_URL="https://nk-aws-updates.navinvishali2025.workers.dev/api/aws-updates";
-let allUpdates=[];
-let activeFilter="all";
+const API_URL = "https://nk-aws-updates.navinvishali2025.workers.dev/api/aws-updates";
 
-async function loadUpdates(){
-  const loading=document.getElementById("loading");
-  const error=document.getElementById("error");
-  error.style.display="none";
-  loading.style.display="block";
+let allItems = [];
+let selectedService = "";
+
+const $ = id => document.getElementById(id);
+
+function escapeHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[ch]));
+}
+
+function formatDate(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+
+function monthKey(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+}
+
+function setActiveService(name){
+  selectedService = name;
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.service === name);
+  });
+  render();
+}
+
+function buildFilters(data){
+  const serviceBar = $("serviceBar");
+  const serviceList = data.services || [];
+
+  serviceBar.innerHTML = "";
+  const all = document.createElement("button");
+  all.className = "chip active";
+  all.dataset.service = "";
+  all.textContent = `All Services (${data.total || 0})`;
+  all.onclick = () => setActiveService("");
+  serviceBar.appendChild(all);
+
+  serviceList.forEach(service => {
+    const button = document.createElement("button");
+    button.className = "chip";
+    button.dataset.service = service.name;
+    button.textContent = `${service.name} (${service.count})`;
+    button.onclick = () => setActiveService(service.name);
+    serviceBar.appendChild(button);
+  });
+
+  const category = $("category");
+  category.innerHTML = '<option value="">All categories</option>';
+  (data.categories || []).forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.name;
+    option.textContent = `${item.name} (${item.count})`;
+    category.appendChild(option);
+  });
+
+  $("serviceCount").textContent = serviceList.length;
+}
+
+function filteredItems(){
+  const search = $("search").value.trim().toLowerCase();
+  const category = $("category").value;
+  const days = Number($("period").value);
+  const cutoff = Date.now() - days * 86400000;
+
+  return allItems.filter(item => {
+    const dateOk = Date.parse(item.publishedAt) >= cutoff;
+    const serviceOk = !selectedService || (item.services || []).includes(selectedService);
+    const categoryOk = !category || (item.categories || []).includes(category);
+
+    const haystack = [
+      item.headline,
+      item.excerpt,
+      ...(item.services || []),
+      ...(item.categories || [])
+    ].join(" ").toLowerCase();
+
+    return dateOk && serviceOk && categoryOk && (!search || haystack.includes(search));
+  });
+}
+
+function render(){
+  const items = filteredItems();
+  $("totalCount").textContent = items.length;
+
+  if(!items.length){
+    $("content").innerHTML = '<div class="empty">No AWS updates match your filters.</div>';
+    return;
+  }
+
+  const groups = new Map();
+
+  items.forEach(item => {
+    const key = monthKey(item.publishedAt);
+    if(!groups.has(key)) groups.set(key,[]);
+    groups.get(key).push(item);
+  });
+
+  let html = "";
+
+  for(const [month, monthItems] of groups){
+    html += `<section class="month">
+      <div class="month-title"><h2>${escapeHtml(month)}</h2></div>
+      <div class="grid">`;
+
+    monthItems.forEach(item => {
+      const tags = (item.services || []).slice(0,5)
+        .map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+
+      const categories = (item.categories || []).slice(0,2)
+        .map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+
+      html += `
+        <article class="card">
+          <div class="card-top">
+            <span class="date">${formatDate(item.publishedAt)}</span>
+            <span class="date">AWS What's New</span>
+          </div>
+          <h3>${escapeHtml(item.headline)}</h3>
+          <p class="excerpt">${escapeHtml(item.excerpt || "Open the AWS announcement for details.")}</p>
+          <div class="tags">${tags}${categories}</div>
+          <div class="card-footer">
+            <a class="open" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">View AWS ↗</a>
+            <span class="service-text">${escapeHtml((item.services || []).slice(0,3).join(" · ") || "AWS update")}</span>
+          </div>
+        </article>`;
+    });
+
+    html += "</div></section>";
+  }
+
+  $("content").innerHTML = html;
+}
+
+async function load(){
   try{
-    const response=await fetch(API_URL,{headers:{"Accept":"application/json"},cache:"no-store"});
-    if(!response.ok) throw new Error("Feed request failed: "+response.status);
-    const data=await response.json();
-    if(!Array.isArray(data.items)) throw new Error("Invalid feed response");
-    allUpdates=data.items;
-    loading.style.display="none";
-    document.getElementById("lastUpdated").textContent=new Date().toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
-    renderUpdates();
-  }catch(err){
-    loading.style.display="none";
-    error.style.display="block";
-    error.textContent="Unable to load AWS updates right now. Check the Cloudflare Worker/API deployment and try again.";
-    console.error(err);
+    $("content").innerHTML = '<div class="loading">Fetching live AWS data…</div>';
+
+    const response = await fetch(API_URL, {cache:"no-store"});
+    if(!response.ok) throw new Error(`API returned ${response.status}`);
+
+    const data = await response.json();
+    if(data.error) throw new Error(data.error);
+
+    allItems = Array.isArray(data.items) ? data.items : [];
+
+    buildFilters(data);
+
+    const updated = data.updatedAt ? new Date(data.updatedAt) : new Date();
+    $("updatedMeta").textContent = `Updated ${updated.toLocaleString("en-IN")}`;
+    $("lastUpdated").textContent = updated.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+    $("totalCount").textContent = allItems.length;
+
+    render();
+  }catch(error){
+    console.error(error);
+    $("content").innerHTML = `<div class="error">AWS updates could not be loaded right now.<br><small>${escapeHtml(error.message)}</small></div>`;
   }
 }
 
-function setFilter(filter){
-  activeFilter=filter;
-  document.querySelectorAll(".filter,.service").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));
-  renderUpdates();
-}
+$("search").addEventListener("input", render);
+$("category").addEventListener("change", render);
+$("period").addEventListener("change", render);
 
-function renderUpdates(){
-  const container=document.getElementById("updates");
-  const empty=document.getElementById("empty");
-  const search=document.getElementById("search").value.trim().toLowerCase();
-
-  const filtered=allUpdates.filter(item=>{
-    const services=Array.isArray(item.services)?item.services:[];
-    const categories=Array.isArray(item.categories)?item.categories:[];
-    const text=((item.title||"")+" "+(item.description||"")+" "+services.join(" ")+" "+categories.join(" ")).toLowerCase();
-    const searchMatch=!search||text.includes(search);
-    const filterMatch=activeFilter==="all"||services.includes(activeFilter)||categories.includes(activeFilter);
-    return searchMatch&&filterMatch;
-  });
-
-  container.innerHTML="";
-  empty.style.display=filtered.length?"none":"block";
-
-  filtered.forEach(item=>{
-    const services=Array.isArray(item.services)?item.services:[];
-    const tags=services.slice(0,5).map(service=>{
-      let cls="tag";
-      if(service==="Amazon Connect") cls+=" connect";
-      if(service==="Amazon Bedrock"||service==="AI") cls+=" ai";
-      return `<span class="${cls}">${escapeHTML(service)}</span>`;
-    }).join("");
-
-    const card=document.createElement("article");
-    card.className="card";
-    card.innerHTML=`
-      <div class="card-top">
-        <div class="tags">${tags}</div>
-        <span class="date">${formatDate(item.date)}</span>
-      </div>
-      <h3>${escapeHTML(item.title||"")}</h3>
-      <p class="description">${escapeHTML(cleanDescription(item.description||""))}</p>
-      <a class="read" href="${safeURL(item.url)}" target="_blank" rel="noopener noreferrer">Read official AWS announcement →</a>`;
-    container.appendChild(card);
-  });
-}
-
-function cleanDescription(text){
-  return text.replace(/<[^>]*>/g,"").replace(/\s+/g," ").trim().substring(0,320);
-}
-function escapeHTML(value){
-  return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-function safeURL(url){
-  try{const u=new URL(url);return u.protocol==="https:"?u.href:"#";}catch(e){return "#";}
-}
-function formatDate(date){
-  if(!date)return "";
-  const d=new Date(date);
-  return Number.isNaN(d.getTime())?"":d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
-}
-
-document.querySelectorAll(".filter,.service").forEach(b=>b.addEventListener("click",()=>setFilter(b.dataset.filter)));
-document.getElementById("search").addEventListener("input",renderUpdates);
-document.getElementById("refresh").addEventListener("click",loadUpdates);
-
-loadUpdates();
-setInterval(loadUpdates,15*60*1000);
+load();
+setInterval(load, 15 * 60 * 1000);
 </script>
 </body>
 </html>
