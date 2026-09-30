@@ -139,13 +139,7 @@ const SERVICE_RULES = {
   ]
 };
 
-
-/* =====================================================
-   XML HELPERS
-===================================================== */
-
 function xmlText(item, tag) {
-
   const escapedTag = tag.replace(":", "\\:");
 
   const regex = new RegExp(
@@ -159,9 +153,7 @@ function xmlText(item, tag) {
 
   const match = item.match(regex);
 
-  if (!match) {
-    return "";
-  }
+  if (!match) return "";
 
   return decodeXml(
     match[1]
@@ -173,13 +165,7 @@ function xmlText(item, tag) {
   );
 }
 
-
-/* =====================================================
-   XML DECODE
-===================================================== */
-
 function decodeXml(value) {
-
   return value
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
@@ -189,21 +175,12 @@ function decodeXml(value) {
     .replace(/&#x27;/gi, "'")
     .replace(
       /&#(\d+);/g,
-      function (_, number) {
-        return String.fromCharCode(
-          Number(number)
-        );
-      }
+      (_, number) =>
+        String.fromCharCode(Number(number))
     );
 }
 
-
-/* =====================================================
-   REMOVE HTML FROM DESCRIPTION
-===================================================== */
-
 function stripHtml(value) {
-
   return value
     .replace(
       /<script[\s\S]*?<\/script>/gi,
@@ -224,171 +201,85 @@ function stripHtml(value) {
     .trim();
 }
 
-
-/* =====================================================
-   PARSE RSS
-===================================================== */
-
 function parseRSS(xml, feed) {
-
   const blocks =
     xml.match(
       /<item[\s\S]*?<\/item>/gi
     ) || [];
 
   return blocks
-    .map(function (block) {
+    .map(block => {
+      const title = xmlText(block, "title");
 
-      const title =
-        xmlText(
-          block,
-          "title"
-        );
-
-      const description =
-        stripHtml(
-          xmlText(
-            block,
-            "description"
-          )
-        );
+      const description = stripHtml(
+        xmlText(block, "description")
+      );
 
       const date =
-        xmlText(
-          block,
-          "pubDate"
-        ) ||
-        xmlText(
-          block,
-          "dc:date"
-        );
+        xmlText(block, "pubDate") ||
+        xmlText(block, "dc:date");
 
       const url =
-        xmlText(
-          block,
-          "link"
-        ) ||
-        xmlText(
-          block,
-          "guid"
-        );
-
+        xmlText(block, "link") ||
+        xmlText(block, "guid");
 
       const combined =
-        (
-          title +
-          " " +
-          description
-        ).toLowerCase();
-
+        `${title} ${description}`.toLowerCase();
 
       const services = [
         ...feed.defaultServices
       ];
 
-
-      /*
-       * Detect relevant AWS services
-       */
-
       for (
         const [service, rules]
-        of Object.entries(
-          SERVICE_RULES
-        )
+        of Object.entries(SERVICE_RULES)
       ) {
-
-        const matched =
-          rules.some(
-            function (rule) {
-
-              return combined.includes(
-                rule.toLowerCase()
-              );
-
-            }
-          );
-
-
         if (
-          matched &&
-          !services.includes(service)
+          rules.some(rule =>
+            combined.includes(
+              rule.toLowerCase()
+            )
+          )
         ) {
-
-          services.push(
-            service
-          );
-
+          if (!services.includes(service)) {
+            services.push(service);
+          }
         }
-
       }
-
 
       return {
-
-        title: title,
-
-        description: description,
-
-        date: date,
-
-        url: url,
-
-        services: services,
-
+        title,
+        description,
+        date,
+        url,
+        services,
         categories: services
-
       };
-
     })
-    .filter(function (item) {
-
-      return (
-        item.title &&
-        item.url
-      );
-
-    });
+    .filter(item =>
+      item.title && item.url
+    );
 }
 
-
-/* =====================================================
-   FETCH ONE FEED
-===================================================== */
-
 async function fetchFeed(feed) {
-
-  const response =
-    await fetch(
-      feed.url,
-      {
-        headers: {
-          "User-Agent":
-            "NK-AWS-Updates/1.0"
-        },
-
-        cf: {
-          cacheTtl: 900,
-          cacheEverything: true
-        }
+  const response = await fetch(
+    feed.url,
+    {
+      headers: {
+        "User-Agent":
+          "NK-AWS-Updates/1.0"
       }
-    );
-
+    }
+  );
 
   if (!response.ok) {
-
     throw new Error(
-      feed.name +
-      ": HTTP " +
-      response.status
+      `${feed.name}: HTTP ${response.status}`
     );
-
   }
-
 
   const xml =
     await response.text();
-
 
   return parseRSS(
     xml,
@@ -396,169 +287,79 @@ async function fetchFeed(feed) {
   );
 }
 
-
-/* =====================================================
-   CLOUDFLARE WORKER
-===================================================== */
-
 export default {
-
-  async fetch(
-    request,
-    env,
-    ctx
-  ) {
+  async fetch(request, env) {
 
     const url =
-      new URL(
-        request.url
-      );
-
+      new URL(request.url);
 
     /*
-     * Only allow our API endpoint
+     * LIVE AWS API
      */
-
     if (
-      url.pathname !==
+      url.pathname ===
       "/api/aws-updates"
     ) {
 
-      return new Response(
-        "Not found",
-        {
-          status: 404
-        }
-      );
-
-    }
-
-
-    /*
-     * Only GET requests
-     */
-
-    if (
-      request.method !== "GET"
-    ) {
-
-      return new Response(
-        "Method not allowed",
-        {
-          status: 405
-        }
-      );
-
-    }
-
-
-    /*
-     * Fetch all AWS feeds
-     */
-
-    const results =
-      await Promise.allSettled(
-        FEEDS.map(
-          fetchFeed
-        )
-      );
-
-
-    /*
-     * Combine successful feeds
-     */
-
-    let items = [];
-
-
-    for (
-      const result
-      of results
-    ) {
-
-      if (
-        result.status ===
-        "fulfilled"
-      ) {
-
-        items.push(
-          ...result.value
+      if (request.method !== "GET") {
+        return new Response(
+          "Method not allowed",
+          { status: 405 }
         );
-
       }
 
-    }
+      const results =
+        await Promise.allSettled(
+          FEEDS.map(fetchFeed)
+        );
 
+      let items = [];
 
-    /*
-     * Remove duplicates
-     */
+      for (const result of results) {
+        if (
+          result.status ===
+          "fulfilled"
+        ) {
+          items.push(
+            ...result.value
+          );
+        }
+      }
 
-    const seen =
-      new Set();
+      const seen = new Set();
 
-
-    const unique =
-      items.filter(
-        function (item) {
+      const unique =
+        items.filter(item => {
 
           const key =
             item.url ||
             item.title;
 
-
-          if (
-            seen.has(key)
-          ) {
-
+          if (seen.has(key)) {
             return false;
-
           }
-
 
           seen.add(key);
 
           return true;
+        });
 
-        }
-      );
-
-
-    /*
-     * Newest first
-     */
-
-    unique.sort(
-      function (a, b) {
-
+      unique.sort((a, b) => {
         const dateA =
           new Date(
             a.date || 0
           ).getTime();
-
 
         const dateB =
           new Date(
             b.date || 0
           ).getTime();
 
+        return dateB - dateA;
+      });
 
-        return (
-          dateB -
-          dateA
-        );
-
-      }
-    );
-
-
-    /*
-     * Return maximum 150 updates
-     */
-
-    const responseBody =
-      JSON.stringify(
-        {
+      return new Response(
+        JSON.stringify({
           generatedAt:
             new Date().toISOString(),
 
@@ -566,35 +367,62 @@ export default {
             "Official AWS RSS feeds",
 
           items:
-            unique.slice(
-              0,
-              150
-            )
+            unique.slice(0, 150)
+        }),
+        {
+          headers: {
+            "Content-Type":
+              "application/json; charset=UTF-8",
+
+            "Cache-Control":
+              "public, max-age=300",
+
+            "Access-Control-Allow-Origin":
+              "*"
+          }
         }
       );
+    }
 
+    /*
+     * WEBSITE
+     *
+     * / -> aws-updates.html
+     */
+    if (url.pathname === "/") {
 
-    return new Response(
-      responseBody,
-      {
-        status: 200,
+      const pageURL =
+        new URL(request.url);
 
-        headers: {
+      pageURL.pathname =
+        "/aws-updates.html";
 
-          "Content-Type":
-            "application/json; charset=UTF-8",
+      return env.ASSETS.fetch(
+        new Request(
+          pageURL,
+          request
+        )
+      );
+    }
 
-          "Cache-Control":
-            "public, max-age=300",
+    /*
+     * Allow direct access to
+     * /aws-updates.html
+     */
+    if (
+      url.pathname ===
+      "/aws-updates.html"
+    ) {
+      return env.ASSETS.fetch(
+        request
+      );
+    }
 
-          "Access-Control-Allow-Origin":
-            "*"
-
-        }
-
-      }
+    /*
+     * Other static files
+     */
+    return env.ASSETS.fetch(
+      request
     );
-
   }
-
 };
